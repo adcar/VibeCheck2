@@ -36,7 +36,7 @@ async function getScores(client) {
       table.addRow(banish(userDetails.username), score)
     );
 
-    table.sortColumn(1, function (a, b) {
+    table.sortColumn(2, function (a, b) {
       return a - b;
     });
 
