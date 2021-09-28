@@ -4,6 +4,7 @@ const { Client, Intents } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const vote = require("./vote");
 const getScores = require("./score");
+const config = require("./config");
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -58,10 +59,7 @@ const rest = new REST({ version: "9" }).setToken(
     console.log("Started refreshing application (/) commands.");
 
     await rest.put(
-      Routes.applicationGuildCommands(
-        "667809315616325668",
-        "664671034825375754"
-      ),
+      Routes.applicationGuildCommands(config.clientId, config.guildId),
       { body: commands }
     );
 
@@ -150,5 +148,4 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.login("NjY3ODA5MzE1NjE2MzI1NjY4.XiIH5A.eTEPTPIy1tUMwqYkmD_J9Zfp_4w");
-
+client.login(config.token);
