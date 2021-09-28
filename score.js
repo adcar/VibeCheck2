@@ -14,7 +14,7 @@ async function getScores(client) {
     await db.close();
 
     const table = new AsciiTable("Scoreboard");
-    table.setHeading("Rank", "User", "Score");
+    table.setHeading("User", "Score");
 
     const userPromises = result.map(
       ({ id, score }) =>
@@ -33,8 +33,13 @@ async function getScores(client) {
 
     const users = await Promise.all(userPromises);
     users.forEach(({ userDetails, score }, index) =>
-      table.addRow(index + 1, banish(userDetails.username), score)
+      table.addRow(banish(userDetails.username), score)
     );
+
+    table.sortColumn(1, function (a, b) {
+      return a - b;
+    });
+
     return table.toString();
   } catch (e) {
     console.error(e);
