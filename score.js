@@ -52,11 +52,7 @@ async function getScores(client) {
     users.forEach((user, index) => {
         table.addRow(index, user.user, user.score)
     })
-
-    table.sortColumn(2, function (a, b) {
-      return a - b;
-    });
-
+    
     return table.toString();
   } catch (e) {
     console.error(e);
