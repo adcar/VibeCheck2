@@ -21,6 +21,30 @@ const commands = [
       option.setName("target").setDescription("The user").setRequired(true)
     ),
   new SlashCommandBuilder()
+    .setName("silver")
+    .setDescription("Silvers a user")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName("gold")
+    .setDescription("Golds a user")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName("plat")
+    .setDescription("Platinums a user")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName("vibecheck")
+    .setDescription("Checks a user's vibe")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
     .setName("score")
     .setDescription("Show the scoreboard"),
 ];
@@ -52,30 +76,49 @@ client.on("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
+  async function _vote(isUpvote, message, type) {
+    const { id, username } = interaction.options.getMember("target").user;
+    if (id === interaction.user.id) {
+      return await interaction.reply({
+        ephemeral: true,
+        content: "You can't vote on yourself",
+      });
+    }
+    try {
+      const res = await vote(isUpvote, id, interaction.user.id, type);
+
+      if (typeof res === "object") {
+        await interaction.reply(res);
+      } else {
+        await interaction.reply(message + ` ${username}'s score is now ${res}`);
+      }
+    } catch (e) {
+      await interaction.reply({
+        ephemeral: true,
+        content: "`" + e + "`",
+      });
+    }
+  }
   if (!interaction.isCommand()) return;
 
   if (interaction.commandName === "d") {
-    const { id, username } = interaction.options.getMember("target").user;
-    try {
-      const score = await vote(false, id);
-      await interaction.reply(
-        `Cringe, bluepilled, etc. ${username}'s score is now ${score}`
-      );
-    } catch (e) {
-      await interaction.reply("Something went wrong, try again later");
-    }
+    _vote(false, "Cringe, bluepilled, etc.", "normal");
   }
 
   if (interaction.commandName === "u") {
-    const { id, username } = interaction.options.getMember("target").user;
-    try {
-      const score = await vote(true, id);
-      await interaction.reply(
-        `Cringe, bluepilled, etc. ${username}'s' score is now ${score}`
-      );
-    } catch (e) {
-      await interaction.reply("Something went wrong, try again later");
-    }
+    _vote(true, "Based (and redpilled).", "normal");
+  }
+
+  if (interaction.commandName === "silver") {
+    _vote(true, "Oh... silver... couldn't afford gold?", "silver");
+  }
+
+  if (interaction.commandName === "gold") {
+    _vote(true, "Edit: Thanks for the gold kind stranger!", "gold");
+  }
+
+  if (interaction.commandName === "plat") {
+    _vote(true, "OMGOMGGOMGOMGGGGGG PLAT??!?!?!?!", "plat");
   }
 
   if (interaction.commandName === "score") {
@@ -83,9 +126,29 @@ client.on("interactionCreate", async (interaction) => {
       const table = await getScores(client);
       await interaction.reply("```\n" + table + "```");
     } catch (e) {
-      await interaction.reply("Something went wrong, try again later");
+      await interaction.reply({
+        ephemeral: true,
+        content: "`" + e + "`",
+      });
+    }
+  }
+
+  if (interaction.commandName === "vibecheck") {
+    const { id, username } = interaction.options.getMember("target").user;
+
+    if (id === interaction.user.id) {
+      return await interaction.reply(
+        "Vibechecking yourself? I can tell you right now you ain't vibin..."
+      );
+    }
+
+    if (Math.round(Math.random()) === 1 && id !== "194997493078032384") {
+      await interaction.reply(`${username} passed the vibecheck`);
+    } else {
+      await interaction.reply(`${username} has failed the vibecheck`);
     }
   }
 });
 
 client.login("NjY3ODA5MzE1NjE2MzI1NjY4.XiIH5A.eTEPTPIy1tUMwqYkmD_J9Zfp_4w");
+

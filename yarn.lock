@@ -1232,6 +1232,11 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
+pretty-seconds@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pretty-seconds/-/pretty-seconds-1.0.1.tgz#ddd878a12e4a1ae4780ae53f4d8fffbeb2270b6a"
+  integrity sha512-F7lJI0p7ukSDIukvV1Sp3aDuXtPSqdr+fQXpLxskzhsy9wnTJZn6d+eb11MHZ4MVJBJxiJ1YZ4SiRLlt+G+Alw==
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
