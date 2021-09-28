@@ -4,13 +4,13 @@ const AsciiTable = require("ascii-table");
 const { banish } = require("@favware/zalgo");
 const score = require("./score");
 
-
 // https://stackoverflow.com/a/8837505/6501208
 function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
+  return array.sort(function (a, b) {
+    var x = a[key];
+    var y = b[key];
+    return x < y ? 1 : x > y ? -1 : 0;
+  });
 }
 
 async function getScores(client) {
@@ -44,14 +44,14 @@ async function getScores(client) {
 
     let tableArray = [];
     users.forEach(({ userDetails, score }, index) =>
-        tableArray.push({username: banish(userDetails.username), score})
+      tableArray.push({ username: banish(userDetails.username), score })
     );
 
     sortByKey(tableArray, "score");
 
     tableArray.forEach((user, index) => {
-        table.addRow(index, user.username, user.score)
-    })
+      table.addRow(index + 1, user.username, user.score);
+    });
 
     return table.toString();
   } catch (e) {
