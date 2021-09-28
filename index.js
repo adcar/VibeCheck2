@@ -50,11 +50,7 @@ const commands = [
     .setDescription("Show the scoreboard"),
 ];
 
-const rest = new REST({ version: "9" }).setToken(
-  "NjY3ODA5MzE1NjE2MzI1NjY4.XiIH5A.eTEPTPIy1tUMwqYkmD_J9Zfp_4w"
-);
-
-(async () => {
+const rest = new REST({ version: "9" }).setToken(config.token)(async () => {
   try {
     console.log("Started refreshing application (/) commands.");
 
