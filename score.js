@@ -4,6 +4,15 @@ const AsciiTable = require("ascii-table");
 const { banish } = require("@favware/zalgo");
 const score = require("./score");
 
+
+// https://stackoverflow.com/a/8837505/6501208
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 async function getScores(client) {
   try {
     const db = await open({
@@ -14,7 +23,7 @@ async function getScores(client) {
     await db.close();
 
     const table = new AsciiTable("Scoreboard");
-    table.setHeading("User", "Score");
+    table.setHeading("Rank", "User", "Score");
 
     const userPromises = result.map(
       ({ id, score }) =>
@@ -32,9 +41,17 @@ async function getScores(client) {
     );
 
     const users = await Promise.all(userPromises);
+
+    let tableArray = [];
     users.forEach(({ userDetails, score }, index) =>
-      table.addRow(banish(userDetails.username), score)
+        tableArray.push({user: banish(userDetails.username), score})
     );
+
+    sortByKey(tableArray, score);
+
+    users.forEach((user, index) => {
+        table.addRow(index, user.user, user.score)
+    })
 
     table.sortColumn(2, function (a, b) {
       return a - b;
