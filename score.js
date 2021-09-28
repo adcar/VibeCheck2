@@ -49,7 +49,7 @@ async function getScores(client) {
 
     sortByKey(tableArray, "score");
 
-    users.forEach((user, index) => {
+    tableArray.forEach((user, index) => {
         table.addRow(index, user.username, user.score)
     })
 
