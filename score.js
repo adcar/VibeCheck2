@@ -44,15 +44,15 @@ async function getScores(client) {
 
     let tableArray = [];
     users.forEach(({ userDetails, score }, index) =>
-        tableArray.push({user: banish(userDetails.username), score})
+        tableArray.push({username: banish(userDetails.username), score})
     );
 
-    sortByKey(tableArray, score);
+    sortByKey(tableArray, "score");
 
     users.forEach((user, index) => {
-        table.addRow(index, user.user, user.score)
+        table.addRow(index, user.username, user.score)
     })
-    
+
     return table.toString();
   } catch (e) {
     console.error(e);
