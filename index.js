@@ -22,6 +22,18 @@ const commands = [
       option.setName("target").setDescription("The user").setRequired(true)
     ),
   new SlashCommandBuilder()
+    .setName("gem")
+    .setDescription("An 'emmy on the 'log")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName("coal")
+    .setDescription("Coalpost")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user").setRequired(true)
+    ),
+  new SlashCommandBuilder()
     .setName("silver")
     .setDescription("Silvers a user")
     .addUserOption((option) =>
@@ -103,6 +115,14 @@ client.on("interactionCreate", async (interaction) => {
 
   if (interaction.commandName === "u") {
     _vote(true, "Based (and redpilled).", "normal");
+  }
+
+  if (interaction.commandName === "gem") {
+    _vote(true, "Yep, that's an 'emmy.", "normal");
+  }
+
+  if (interaction.commandName === "coal") {
+    _vote(false, "Yikes, major coal.", "normal");
   }
 
   if (interaction.commandName === "silver") {
